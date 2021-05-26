@@ -68,6 +68,11 @@ public class PlayerBehaviour : MonoBehaviour
     // FixedUpdate is called at a fixed framerate
     void FixedUpdate()
     {
+        if (PauseMenuBehaviour.paused)
+        {
+            return;
+        }
+
         // Check if we are moving to the side
         var horizontalSpeed = Input.GetAxis("Horizontal") * dodgeSpeed;
         #if UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_EDITOR
@@ -95,6 +100,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Update()
     {
+        if (PauseMenuBehaviour.paused)
+        {
+            return;
+        }
+
         #if UNITY_IOS || UNITY_ANDROID
             if(Input.touchCount > 0)
             {
