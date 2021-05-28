@@ -36,6 +36,12 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!GameObject.FindObjectOfType<UnityAdController>())
+        {
+            var adController = new GameObject("Unity Ad Manager");
+            adController.AddComponent<UnityAdController>();
+        }
+
         nextTileLocation = startPoint;
         nextTileRotation = Quaternion.identity;
 

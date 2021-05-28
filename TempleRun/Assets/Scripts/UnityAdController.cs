@@ -5,6 +5,8 @@ using UnityEngine.Advertisements;
 
 public class UnityAdController : MonoBehaviour, IUnityAdsListener
 {
+    public static ObstacleBehaviour obstacle;
+
     /// <summary>
     /// if we should show ads or not
     /// </summary>
@@ -58,6 +60,11 @@ public class UnityAdController : MonoBehaviour, IUnityAdsListener
 
     public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
     {
+        if(obstacle != null && showResult == ShowResult.Finished)
+        {
+            obstacle.Continue();
+        }
+
         PauseMenuBehaviour.paused = false;
         Time.timeScale = 1f;
     }
