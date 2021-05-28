@@ -33,6 +33,9 @@ public class PauseMenuBehaviour : MainMenuBehaviour
 
     public void Start()
     {
-        SetPauseMenu(false);
+        if (!UnityAdController.showAds)
+        {
+            SetPauseMenu(false);
+        }
     }
 }

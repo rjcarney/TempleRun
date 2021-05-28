@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
-public class UnityAdController : MonoBehaviour
+public class UnityAdController : MonoBehaviour, IUnityAdsListener
 {
     /// <summary>
     /// if we should show ads or not
@@ -25,6 +25,7 @@ public class UnityAdController : MonoBehaviour
     {
         if (!Advertisement.isInitialized)
         {
+            Advertisement.AddListener(this);
             Advertisement.Initialize(gameId, testMode);
         }
     }
@@ -36,4 +37,30 @@ public class UnityAdController : MonoBehaviour
             Advertisement.Show();
         }
     }
+
+
+    #region IUnityAdsListener Methods
+    public void OnUnityAdsReady(string placementId)
+    {
+
+    }
+
+    public void OnUnityAdsDidError(string message)
+    {
+        Debug.LogError(message);
+    }
+
+    public void OnUnityAdsDidStart(string placementId)
+    {
+        PauseMenuBehaviour.paused = true;
+        Time.timeScale = 0f;
+    }
+
+    public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
+    {
+        PauseMenuBehaviour.paused = false;
+        Time.timeScale = 1f;
+    }
+    #endregion
 }
+
