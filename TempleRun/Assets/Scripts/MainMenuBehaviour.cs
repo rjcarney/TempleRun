@@ -18,4 +18,15 @@ public class MainMenuBehaviour : MonoBehaviour
             UnityAdController.ShowAd();
         }
     }
+
+    public void DisableAds()
+    {
+        UnityAdController.showAds = false;
+        PlayerPrefs.SetInt("Show Ads", 0);
+    }
+
+    protected virtual void Start()
+    {
+        UnityAdController.showAds = (PlayerPrefs.GetInt("Show Ads", 1) == 1);
+    }
 }

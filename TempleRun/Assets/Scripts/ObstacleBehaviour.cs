@@ -62,14 +62,14 @@ public class ObstacleBehaviour : MonoBehaviour
 
         if (continueButton)
         {
-            if (UnityAdController.showAds)
-            {
+            //if (UnityAdController.showAds)
+            //{
                 StartCoroutine(ShowContinue(continueButton));
-            }
-            else
-            {
-                continueButton.gameObject.SetActive(false);
-            }
+            //}
+            //else
+            //{
+            //    continueButton.gameObject.SetActive(false);
+            //}
         }
     }
 
@@ -122,6 +122,18 @@ public class ObstacleBehaviour : MonoBehaviour
                 btnText.text = countdownText;
 
                 yield return new WaitForSeconds(1f);
+            }
+            else if (!UnityAdController.showAds)
+            {
+                contButton.interactable = true;
+
+                contButton.onClick.AddListener(Continue);
+
+                UnityAdController.obstacle = this;
+
+                btnText.text = "Free Continue";
+
+                break;
             }
             else
             {

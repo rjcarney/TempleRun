@@ -33,6 +33,8 @@ public class PauseMenuBehaviour : MainMenuBehaviour
 
     public void Start()
     {
+        base.Start();
+
         if (!UnityAdController.showAds)
         {
             SetPauseMenu(false);
