@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,8 +64,7 @@ public class ObstacleBehaviour : MonoBehaviour
         {
             if (UnityAdController.showAds)
             {
-                continueButton.onClick.AddListener(UnityAdController.ShowAd);
-                UnityAdController.obstacle = this;
+                StartCoroutine(ShowContinue(continueButton));
             }
             else
             {
@@ -93,5 +93,48 @@ public class ObstacleBehaviour : MonoBehaviour
         player.SetActive(true);
 
         PlayerTouch();
+    }
+
+    public IEnumerator ShowContinue(Button contButton)
+    {
+        while (true)
+        {
+            var btnText = contButton.GetComponentInChildren<Text>();
+
+            var rewardTime = UnityAdController.nextRewardTime;
+
+            bool validTime = rewardTime.HasValue;
+            bool timePassed = true;
+
+            if (validTime)
+            {
+                timePassed = DateTime.Now > rewardTime.Value;
+            }
+
+            if(!timePassed)
+            {
+                contButton.interactable = false;
+
+                TimeSpan remaining = rewardTime.Value - DateTime.Now;
+
+                var countdownText = string.Format("{0:D2}:{1:D2}", remaining.Minutes, remaining.Seconds);
+
+                btnText.text = countdownText;
+
+                yield return new WaitForSeconds(1f);
+            }
+            else
+            {
+                contButton.interactable = true;
+
+                contButton.onClick.AddListener(UnityAdController.ShowRewardAd);
+
+                UnityAdController.obstacle = this;
+
+                btnText.text = "Continue (Play Ad)";
+
+                break;
+            }
+        }
     }
 }

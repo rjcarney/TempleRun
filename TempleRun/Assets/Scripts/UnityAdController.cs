@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine.Advertisements;
 public class UnityAdController : MonoBehaviour, IUnityAdsListener
 {
     public static ObstacleBehaviour obstacle;
+
+    public static DateTime? nextRewardTime = null;
 
     /// <summary>
     /// if we should show ads or not
@@ -38,6 +41,13 @@ public class UnityAdController : MonoBehaviour, IUnityAdsListener
         {
             Advertisement.Show();
         }
+    }
+
+    public static void ShowRewardAd()
+    {
+        nextRewardTime = DateTime.Now.AddSeconds(15);
+
+        ShowAd();
     }
 
 
