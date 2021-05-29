@@ -17,6 +17,7 @@ public class PauseMenuBehaviour : MainMenuBehaviour
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SetPauseMenu(false);
     }
 
     // <summary>
@@ -31,7 +32,7 @@ public class PauseMenuBehaviour : MainMenuBehaviour
         pauseMenu.SetActive(paused);
     }
 
-    public void Start()
+    protected override void Start()
     {
         base.Start();
 
