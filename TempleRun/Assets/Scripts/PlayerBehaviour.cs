@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Responsible for moving the player automatically
@@ -58,11 +59,32 @@ public class PlayerBehaviour : MonoBehaviour
     /// </summary>
     private float currentScale = 1;
 
+    [Header("Object References")]
+    public Text scoreText;
+
+    private float score = 0;
+
+    public float Score
+    {
+        get { return score; }
+        set
+        {
+            score = value;
+            if(scoreText == null)
+            {
+                Debug.LogError("Score text is not set.");
+                return;
+            }
+            scoreText.text = string.Format("{0:0}", score);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         minSwipeDistancePixels = minSwipeDistance * Screen.dpi;
+        Score = 0;
     }
 
     // FixedUpdate is called at a fixed framerate
@@ -104,6 +126,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             return;
         }
+        Score += Time.deltaTime;
 
         #if UNITY_IOS || UNITY_ANDROID
             if(Input.touchCount > 0)
